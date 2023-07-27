@@ -8,8 +8,7 @@ import gymnasium as gym
 #import numpy as np
 #import tensorflow as tf
 import matplotlib.pyplot as plt
-import time
-
+import datetime
 from stable_baselines3 import A2C
 
 env = gym.make("CartPole-v1", render_mode = 'human')
@@ -17,7 +16,7 @@ env = gym.make("CartPole-v1", render_mode = 'human')
 #act_space = env.action_space
 #obs = env.reset()
 
-model = A2C("MlpPolicy", env, verbose=1)
+model = A2C("MlpPolicy", env, verbose=1, tensorboard_log = "./a2c_cartpole_tensorboard/")
 model.learn(total_timesteps=10_000)
 
 vec_env = model.get_env()
