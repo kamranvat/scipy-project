@@ -15,8 +15,6 @@ The results can be visualized and displayed.
 import argparse
 
 # Define a parser and command line arguments
-
-
 parser = argparse.ArgumentParser(
     description="Train and compare different policies (with default hyperparameters) in the cartpole-v1 environment from stable-baselines3.",
     epilog="Warning: A high episode count over many models is computationally expensive.",
@@ -58,7 +56,7 @@ parser.add_argument(
 )
 
 agent_list = [
-    {"name": "A2C", "description": "", "active": True}, 
+    {"name": "A2C", "description": "", "active": True},
     {"name": "ACER", "description": "", "active": False},
     {"name": "ACKTR", "description": "", "active": False},
     {"name": "DQN", "description": "", "active": True},
@@ -66,17 +64,46 @@ agent_list = [
     {"name": "PPO1", "description": "", "active": False},
     {"name": "PPO2", "description": "", "active": True},
     {"name": "TRPO", "description": "", "active": False},
-       ]
+]
 
 
-def set():
-    """Display agents set to train, let the user make changes"""
-    print_active_agents()
-    
+def toggle_active_agents():
+    """Let the user toggle which agents should be included for training via CLI"""
+    while True:
+        print("\n Current Policies: ")
+        print_active_agents(agent_list)
+
+        choice = input(
+            "\n Enter the name of the policy to toggle (type 'exit' to quit): "
+        )
+
+        if choice.lower() == "exit":
+            break
+
+        found = False
+        for agent in agent_list:
+            if agent["name"] == choice:
+                agent["active"] = not agent["active"]
+                found = True
+                print(
+                    f"Policy '{agent['name']}' is now {'Active' if agent['active'] else 'Inactive'}.\n"
+                )
+                break
+
+        if not found:
+            print(
+                f"Policy with name '{choice}' not found. Please enter a valid name or 'exit' to quit."
+            )
+
+
 def print_active_agents(agent_list):
-
-    active_names = [agent["name"] for agent in agent_list if agent.get("active") == True]
-    inactive_names = [agent["name"] for agent in agent_list if agent.get("active") == False]
+    """Format and print the agent list, sorted by active/inactive"""
+    active_names = [
+        agent["name"] for agent in agent_list if agent.get("active") == True
+    ]
+    inactive_names = [
+        agent["name"] for agent in agent_list if agent.get("active") == False
+    ]
 
     print("Active: \n".join(active_names))
     print("\n Inactive: \n".join(inactive_names))
