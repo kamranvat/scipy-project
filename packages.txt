@@ -3,3 +3,4 @@ tensorflow
 gymnasium
 matplotlib
 gymnasium[classic-control]
+opencv-python 
