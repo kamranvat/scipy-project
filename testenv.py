@@ -11,10 +11,12 @@ import matplotlib.pyplot as plt
 import datetime
 from stable_baselines3 import A2C
 from stable_baselines3.common.logger import configure
+#from stable_baselines3.common.logger import CSVOutputFormat as csvformat
 
 # Configure logging
 tmp_path = "./logs/"
 new_logger = configure(tmp_path, ["stdout", "csv"])
+
 
 # Set model and train
 model = A2C("MlpPolicy", "CartPole-v1", verbose=1)
