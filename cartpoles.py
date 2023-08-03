@@ -112,7 +112,7 @@ def print_active_agents(agent_list):
 
 
 def train():
-    pass
+    """Get the list of active models, pass it into the training function from training.py"""
 
 
 def load_settings():
