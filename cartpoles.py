@@ -57,8 +57,6 @@ parser.add_argument(
     help="Amount of steps each agent should be trained for. Default: 5,000",
 )
 
-# Write a list of dictionaries. Each dict contains info about one of the models. Check your laptop you lazy fuck
-
 agent_list = [
     {"name": "A2C", "description": "", "active": True}, 
     {"name": "ACER", "description": "", "active": False},
@@ -72,8 +70,16 @@ agent_list = [
 
 
 def set():
-    print("Active: ")
+    """Display agents set to train, let the user make changes"""
+    print_active_agents()
     
+def print_active_agents(agent_list):
+
+    active_names = [agent["name"] for agent in agent_list if agent.get("active") == True]
+    inactive_names = [agent["name"] for agent in agent_list if agent.get("active") == False]
+
+    print("Active: \n".join(active_names))
+    print("\n Inactive: \n".join(inactive_names))
 
 
 def train():
