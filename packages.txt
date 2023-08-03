@@ -1,5 +1,5 @@
 installs so far:
 tensorflow
-gymnasium
 matplotlib
 gymnasium[classic-control]
+stable-baselines3
