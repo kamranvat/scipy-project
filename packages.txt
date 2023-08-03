@@ -2,4 +2,8 @@ installs so far:
 tensorflow
 matplotlib
 gymnasium[classic-control]
+<<<<<<< HEAD
 stable-baselines3
+=======
+opencv-python 
+>>>>>>> d0babb59d20ba3882a747418bdf7440848db72b8
