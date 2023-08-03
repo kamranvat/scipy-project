@@ -23,37 +23,39 @@ parser = argparse.ArgumentParser(
 parser.add_argument(
     "--set",
     "-s",
-    action="set",
-    help="Switch for viewing/changing the agent list before training",
+    action="store_true",
+    help="view/modify the agent list before training",
 )
 
 parser.add_argument(
     "--train",
     "-t",
-    action="train",
-    help="Train all agents set to active in the agent list",
+    action="store_true",
+    help="train all agents set to 'active' in the agent list",
 )
 
 parser.add_argument(
     "--compare",
     "-c",
-    action="compare",
-    help="Only show the visualized results from the last run. Suppress settings and training.",
+    action="store_true",
+    help="show only the visualized results from the last run, suppresses settings and training.",
 )
 
 parser.add_argument(
     "--demo",
     "-d",
-    action="demo",
-    help="Switch for demo mode, trains one agent in render mode 'human'",
+    action="store_true",
+    help="demo mode, trains one agent in render mode 'human'",
 )
 
 parser.add_argument(
     "--runs",
     "-r",
     type=int,
-    help="Amount of steps each agent should be trained for. Default: 5,000",
+    help="amount of steps each agent should be trained for (default: 5,000)",
 )
+
+args = parser.parse_args()
 
 agent_list = [
     {"name": "A2C", "description": "", "active": True},
