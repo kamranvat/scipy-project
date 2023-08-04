@@ -12,7 +12,7 @@ import os
 log_path = "./logs/"
 
 
-def train_active_models():
+def train_active_models(runs):
     """
     Takes a list of dictionaries that include a "name" key and value.
     Calls training for each model that is named in the list.
@@ -54,7 +54,7 @@ def train_active_models():
                     f"Policy {policy_name} is active. Model: {model}. Training now..."
                 )
                 model.set_logger(csv_logger)
-                model.learn(5000)
+                model.learn(runs)
                 rename_progress_file(agent.get("name"))
 
             else:
@@ -71,6 +71,6 @@ def rename_progress_file(new_name):
 
     if os.path.exists(old_file_path):
         os.rename(old_file_path, new_file_path)
-        print(f"File 'progress.csv' renamed to '{new_name}.csv' successfully.")
+        print(f"Log file stored as '{new_name}.csv'")
     else:
         print("Error: 'progress.csv' file not found in the './logs' subfolder.")

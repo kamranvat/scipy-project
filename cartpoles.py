@@ -13,7 +13,6 @@ The results can be visualized and displayed.
 # if no arguments are given, just display current settings
 
 import argparse
-#TODO minimize imports
 from training import train_active_models
 from cli import toggle_active_agents
 
@@ -55,6 +54,7 @@ parser.add_argument(
     "--runs",
     "-r",
     type=int,
+    default=5000,
     help="amount of steps each agent should be trained for (default: 5,000)",
 )
 
@@ -75,5 +75,6 @@ def compare_shipped():
 if __name__ == "__main__":
 
     # TODO unify naming scheme (policy/model/agent)
+    # TODO use args to decide which functions to call
     toggle_active_agents()
-    train_active_models()
+    train_active_models(args.runs)
