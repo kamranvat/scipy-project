@@ -48,14 +48,8 @@ If you have extensive documentation, you can provide a link or instructions on h
 
 ## Authors
 
-- [Christian Meißner](https://github.com/christian-meissner)
-- [Kamran Vatankhah](https://github.com/kamranvat)
-
-## Contact
-
-- Email: cmeissner@uos.de
-- Email: kvatankhahba@uos.de
-
+- [Christian Meißner](https://github.com/christian-meissner) - cmeissner@uos.de
+- [Kamran Vatankhah](https://github.com/kamranvat) - kvatankhahba@uos.de
 
 
 
