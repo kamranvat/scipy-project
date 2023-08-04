@@ -1,13 +1,12 @@
 """Contains everything required to train models after being passed a list of dicts with model names"""
+import os
+from cli import load_settings
 
 from stable_baselines3.common.logger import configure
 
 from stable_baselines3 import A2C
 from stable_baselines3 import DQN
 from stable_baselines3 import PPO
-
-from cli import load_settings
-import os
 
 log_path = "./logs/"
 
@@ -24,7 +23,6 @@ def train_active_models(runs):
 
     for agent in agent_list:
         if agent.get("active") == True:
-
             # Configure logging
             csv_logger = configure(log_path, ["stdout", "csv"])
 
@@ -63,7 +61,7 @@ def train_active_models(runs):
 
 def rename_progress_file(new_name):
     """rename the csv log file for later processing"""
-    #TODO remove print statements after testing
+    # TODO remove print statements after testing
     old_file_path = os.path.join(log_path, "progress.csv")
     new_file_path = os.path.join(log_path, f"{new_name}.csv")
 

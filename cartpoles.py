@@ -61,8 +61,6 @@ parser.add_argument(
 args = parser.parse_args()
 
 
-
-
 def compare():
     # call the comparison script with the right values
     pass
