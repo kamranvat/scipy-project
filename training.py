@@ -18,8 +18,6 @@ def train_active_models(runs):
     Calls training for each model that is named in the list.
     """
 
-    
-
     # TODO allow user to change number of episodes
 
     agent_list = load_settings()
