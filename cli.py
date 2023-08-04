@@ -6,34 +6,43 @@ settings_file = "agent_settings.json"
 settings_path = os.path.join(settings_folder, settings_file)
 
 default_agent_list = [
-    {"name": "A2C", "description": "", "active": True},
-    {"name": "ACER", "description": "", "active": False},
-    {"name": "ACKTR", "description": "", "active": False},
-    {"name": "DQN", "description": "", "active": True},
-    {"name": "GAIL", "description": "", "active": False},
-    {"name": "PPO1", "description": "", "active": False},
-    {"name": "PPO2", "description": "", "active": True},
-    {"name": "TRPO", "description": "", "active": False},
+    {
+        "name": "A2C",
+        "active": True,
+        "description": "A synchronous, deterministic variant of Asynchronous Advantage Actor Critic (A3C). It uses multiple workers to avoid the use of a replay buffer.",
+    },
+    {
+        "name": "DQN",
+        "active": True,
+        "description": "Deep Q Network (DQN) builds on Fitted Q-Iteration (FQI) and make use of different tricks to stabilize the learning with neural networks: it uses a replay buffer, a target network and gradient clipping.",
+    },
+    {
+        "name": "PPO",
+        "active": True,
+        "description": "The Proximal Policy Optimization algorithm combines ideas from A2C (having multiple workers) and TRPO (it uses a trust region to improve the actor).",
+    },
 ]
 
 
 def toggle_active_agents():
     """Let the user toggle which agents should be included for training via CLI"""
     while True:
+
+        # Default settings if no file exists
         if settings_file_exists():
             agent_list = load_settings()
         else:
             agent_list = default_agent_list
             save_settings(agent_list)
 
-        print("\n Current Policies: ")
+        print("\nCurrent Policies: ")
         print_agents_by_activity(agent_list)
 
         choice = input(
-            "\n Enter the name of the policy to toggle (type 'exit' to quit): "
-        )
+            "\nEnter the name of the policy to toggle (type 'exit' to quit): "
+        ).upper()
 
-        if choice.lower() == "exit":
+        if choice == "EXIT":
             save_settings(agent_list)
             break
 
@@ -43,7 +52,7 @@ def toggle_active_agents():
                 agent["active"] = not agent["active"]
                 found = True
                 print(
-                    f"Policy '{agent['name']}' is now {'Active' if agent['active'] else 'Inactive'}.\n"
+                    f"Policy '{agent['name']}' set to {'Active' if agent['active'] else 'Inactive'}. "
                 )
                 save_settings(agent_list)
                 break
@@ -63,8 +72,8 @@ def print_agents_by_activity(agent_list):
         agent["name"] for agent in agent_list if agent.get("active") == False
     ]
 
-    print("Active: \n".join(active_names))
-    print("\n Inactive: \n".join(inactive_names))
+    print("\n Active: \n -" + "\n -".join(active_names))
+    print("\n Inactive: \n -" + "\n -".join(inactive_names))
 
 
 def save_settings(agent_list):

@@ -13,6 +13,7 @@ The results can be visualized and displayed.
 # if no arguments are given, just display current settings
 
 import argparse
+#TODO minimize imports
 import training
 import cli
 
@@ -59,23 +60,7 @@ parser.add_argument(
 
 args = parser.parse_args()
 
-default_agent_list = [
-    {
-        "name": "A2C",
-        "active": True,
-        "description": "A synchronous, deterministic variant of Asynchronous Advantage Actor Critic (A3C). It uses multiple workers to avoid the use of a replay buffer.",
-    },
-    {
-        "name": "DQN",
-        "active": True,
-        "description": "Deep Q Network (DQN) builds on Fitted Q-Iteration (FQI) and make use of different tricks to stabilize the learning with neural networks: it uses a replay buffer, a target network and gradient clipping.",
-    },
-    {
-        "name": "PPO",
-        "active": True,
-        "description": "The Proximal Policy Optimization algorithm combines ideas from A2C (having multiple workers) and TRPO (it uses a trust region to improve the actor).",
-    },
-]
+
 
 
 def compare():
@@ -86,3 +71,9 @@ def compare():
 def compare_shipped():
     # like compare but with our trained values(optional)
     pass
+
+if __name__ == "__main__":
+
+    # TODO unify naming scheme (policy/model/agent)
+    cli.toggle_active_agents()
+    training.train_active_models()
