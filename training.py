@@ -12,12 +12,9 @@ from stable_baselines3.common.logger import configure
 
 # TODO double check the imported algos here on the website of sd3
 from stable_baselines3 import A2C
-from stable_baselines3 import ACER
-from stable_baselines3 import ACKTR
 from stable_baselines3 import DQN
-from stable_baselines3 import GAIL
 from stable_baselines3 import PPO
-from stable_baselines3 import TRPO
+
 
 
 def call_active_models(agent_list):
@@ -35,12 +32,8 @@ def call_active_models(agent_list):
             # "Translate" from str to class
             policy_classes = {
                 "A2C": A2C,
-                "ACER": ACER,
-                "ACKTR": ACKTR,
                 "DQN": DQN,
-                "GAIL": GAIL,
                 "PPO": PPO,
-                "TRPO": TRPO
             }
 
             if policy_name in policy_classes:
