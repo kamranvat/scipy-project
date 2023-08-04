@@ -13,8 +13,8 @@ The results can be visualized and displayed.
 # if no arguments are given, just display current settings
 
 import argparse
-from training import train_active_models
-from cli import toggle_active_agents
+from training import train_active_models, train_demo
+from cli import toggle_active_agents, load_settings
 
 # Define a parser and command line arguments
 parser = argparse.ArgumentParser(
@@ -26,14 +26,14 @@ parser.add_argument(
     "--set",
     "-s",
     action="store_true",
-    help="view/modify the agent list before training",
+    help="view/modify the list of models to be trained",
 )
 
 parser.add_argument(
     "--train",
     "-t",
     action="store_true",
-    help="train all agents set to 'active' in the agent list",
+    help="train all models set to 'active' in the model list",
 )
 
 parser.add_argument(
@@ -47,19 +47,18 @@ parser.add_argument(
     "--demo",
     "-d",
     action="store_true",
-    help="demo mode, trains one agent in render mode 'human'",
+    help="demo mode, trains A2C, then shows the trained agent in render mode 'human'. Does not log.",
 )
 
 parser.add_argument(
     "--runs",
     "-r",
     type=int,
-    default=5000,
-    help="amount of steps each agent should be trained for (default: 5,000)",
+    default=10000,
+    help="amount of steps each agent should be trained for (default: 10,000)",
 )
 
 args = parser.parse_args()
-
 
 def compare():
     # call the comparison script with the right values
@@ -70,9 +69,17 @@ def compare_shipped():
     # like compare but with our trained values(optional)
     pass
 
-if __name__ == "__main__":
 
+if __name__ == "__main__":
     # TODO unify naming scheme (policy/model/agent)
     # TODO use args to decide which functions to call
-    toggle_active_agents()
-    train_active_models(args.runs)
+    agent_list = load_settings()
+
+    if args.demo:
+        train_demo()
+
+    if args.set:
+        toggle_active_agents()
+
+    if args.train:    
+        train_active_models(agent_list, args.runs)
