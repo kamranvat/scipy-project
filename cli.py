@@ -28,12 +28,7 @@ def toggle_active_agents():
     """Let the user toggle which agents should be included for training via CLI"""
     while True:
 
-        # Default settings if no file exists
-        if settings_file_exists():
-            agent_list = load_settings()
-        else:
-            agent_list = default_agent_list
-            save_settings(agent_list)
+        agent_list = load_settings()
 
         print("\nCurrent Policies: ")
         print_agents_by_activity(agent_list)
@@ -91,9 +86,9 @@ def load_settings():
         with open(settings_path, "r") as file:
             return json.load(file)
     else:
-        raise FileNotFoundError(
-            f"The settings file '{settings_file}' does not exist in the '{settings_folder}' folder."
-        )
+        # Default settings if no file exists
+        save_settings(default_agent_list)
+        load_settings()
 
 
 def settings_file_exists():

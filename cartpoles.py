@@ -14,8 +14,8 @@ The results can be visualized and displayed.
 
 import argparse
 #TODO minimize imports
-import training
-import cli
+from training import train_active_models
+from cli import toggle_active_agents
 
 # Define a parser and command line arguments
 parser = argparse.ArgumentParser(
@@ -75,5 +75,5 @@ def compare_shipped():
 if __name__ == "__main__":
 
     # TODO unify naming scheme (policy/model/agent)
-    cli.toggle_active_agents()
-    training.train_active_models()
+    toggle_active_agents()
+    train_active_models()
