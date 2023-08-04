@@ -7,6 +7,9 @@ from stable_baselines3 import DQN
 from stable_baselines3 import PPO
 
 from cli import load_settings
+import os
+
+log_path = "./logs/"
 
 
 def train_active_models():
@@ -15,9 +18,7 @@ def train_active_models():
     Calls training for each model that is named in the list.
     """
 
-    # Configure logging
-    log_path = "./logs/"
-    csv_logger = configure(log_path, ["stdout", "csv"])
+    
 
     # TODO allow user to change number of episodes
 
@@ -25,6 +26,10 @@ def train_active_models():
 
     for agent in agent_list:
         if agent.get("active") == True:
+
+            # Configure logging
+            csv_logger = configure(log_path, ["stdout", "csv"])
+
             policy_name = agent.get("name")
             # environment_name = agent.get("environment")
             environment_name = "CartPole-v1"
@@ -50,8 +55,22 @@ def train_active_models():
                 )
                 model.set_logger(csv_logger)
                 model.learn(5000)
+                rename_progress_file(agent.get("name"))
 
             else:
                 print(f"Policy {policy_name} is active, but the class is not defined.")
 
     print("\n" * 3)
+
+
+def rename_progress_file(new_name):
+    """rename the csv log file for later processing"""
+    #TODO remove print statements after testing
+    old_file_path = os.path.join(log_path, "progress.csv")
+    new_file_path = os.path.join(log_path, f"{new_name}.csv")
+
+    if os.path.exists(old_file_path):
+        os.rename(old_file_path, new_file_path)
+        print(f"File 'progress.csv' renamed to '{new_name}.csv' successfully.")
+    else:
+        print("Error: 'progress.csv' file not found in the './logs' subfolder.")
