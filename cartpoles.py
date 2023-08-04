@@ -13,6 +13,9 @@ The results can be visualized and displayed.
 # if no arguments are given, just display current settings
 
 import argparse
+import training
+import os 
+import json
 
 # Define a parser and command line arguments
 parser = argparse.ArgumentParser(
@@ -38,7 +41,7 @@ parser.add_argument(
     "--compare",
     "-c",
     action="store_true",
-    help="show only the visualized results from the last run, suppresses settings and training.",
+    help="show only the visualized results from the last run, suppresses --set and --train",
 )
 
 parser.add_argument(
@@ -67,6 +70,10 @@ agent_list = [
     {"name": "PPO2", "description": "", "active": True},
     {"name": "TRPO", "description": "", "active": False},
 ]
+
+settings_folder = "./settings"
+settings_file = "agent_settings.json"
+settings_path = os.path.join(settings_folder, settings_file)
 
 
 def toggle_active_agents():
@@ -111,16 +118,19 @@ def print_active_agents(agent_list):
     print("\n Inactive: \n".join(inactive_names))
 
 
-def train():
-    """Get the list of active models, pass it into the training function from training.py"""
+def save_settings(agent_list):
+    if not os.path.exists(settings_folder):
+        os.makedirs(settings_folder)
 
+    with open(settings_path, "w") as file:
+        json.dump(agent_list, file, indent=4)
 
 def load_settings():
-    pass
-
-
-def save_settings():
-    pass
+    if os.path.exists(settings_path):
+        with open(settings_path, "r") as file:
+            return json.load(file)
+    else:
+        return []
 
 
 def compare():
