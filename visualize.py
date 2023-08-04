@@ -13,17 +13,19 @@ def visualize(logs):
     data = pd.read_csv(f"logs/{logs}.csv")
 
     # display the dataframe
-    print(f"This is an overview over the logged parameters from the {logs} run.")
+    print(f"This is an overview over the logged parameters from the {logs} run.\n")
     print(data.head())
-
-    print("This is a visualization of the mean episode reward depending on elapsed time: /n")
+    print(""" 
+        The environment describes the world the agent is located in and changes its state based 
+        on the behavior of the agent. The learning process is based on the experience the agent 
+        gains through exploring the environment by executing different actions and receiving 
+        feedback (rewards) from the environment depending on how good or bad the chosen actions 
+        were. The reward is therefore an important measure when evaluating a models performance.\n""")
+    #print("This is a visualization of the mean episode reward depending on total timesteps:")
     # create a figure showing the mean episode reward over time
     fig, ax = plt.subplots(nrows = 1, ncols = 1)
     ax.plot(data["time/total_timesteps"], data['rollout/ep_rew_mean'])
-    ax.set(ylabel="mean episode reward", xlabel="time", title="mean episode reward depending on elapsed time")
+    ax.set(ylabel="Mean Episode Rewards", xlabel="Number of Timesteps", title="Mean Episode Rewards depending on Timesteps")
     plt.show()
 
 
-
-
-visualize("PPO")
