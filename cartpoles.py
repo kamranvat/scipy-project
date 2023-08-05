@@ -6,7 +6,7 @@ The results can be visualized and displayed.
 import argparse
 from training import train_active_models, train_demo
 from cli import toggle_active_models, load_settings
-import improved_compare
+from comparison import compare
 
 # Define a parser and command line arguments
 parser = argparse.ArgumentParser(
@@ -52,6 +52,7 @@ parser.add_argument(
 
 args = parser.parse_args()
 
+
 if __name__ == "__main__":
     model_list = load_settings()
 
@@ -69,4 +70,4 @@ if __name__ == "__main__":
             train_active_models(model_list, args.runs)
 
         if args.compare:
-            improved_compare.compare(model_list)
+            compare(model_list)
