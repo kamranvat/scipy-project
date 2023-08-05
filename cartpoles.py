@@ -14,7 +14,7 @@ The results can be visualized and displayed.
 
 import argparse
 from training import train_active_models, train_demo
-from cli import toggle_active_agents, load_settings
+from cli import toggle_active_models, load_settings
 import improved_compare
 
 # Define a parser and command line arguments
@@ -72,18 +72,17 @@ def compare_shipped():
 
 
 if __name__ == "__main__":
-    # TODO unify naming scheme (policy/model/agent)
-    # TODO use args to decide which functions to call
-    agent_list = load_settings()
+
+    model_list = load_settings()
 
     if args.demo:
         train_demo()
 
     if args.set:
-        toggle_active_agents()
+        toggle_active_models(model_list)
 
     if args.train:    
-        train_active_models(agent_list, args.runs)
+        train_active_models(model_list, args.runs)
 
     if args.compare:
-        improved_compare.compare(agent_list)
+        improved_compare.compare(model_list)

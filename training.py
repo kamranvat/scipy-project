@@ -13,15 +13,16 @@ log_path = "./logs/"
 
 def train_active_models(model_list, runs):
     """
-    Takes a list of dictionaries that include a "name" key and value.
-    Calls training for each model that is named in the list.
-    """
+    Calls training for each model that is set to active in the list.
+    Trains for "runs" timesteps.
 
-    # TODO allow user to change number of episodes
+    Args:
+        model_list (list of dicts): _description_
+        runs (int): timesteps for model.learn(timesteps)
+    """
 
     for model in model_list:
         if model.get("active"):
-
             # Configure logging
             csv_logger = configure(log_path, ["stdout", "csv"])
 
@@ -42,8 +43,10 @@ def train_active_models(model_list, runs):
 
             if policy_name in policy_classes:
                 policy_class = policy_classes[policy_name]
-                current_model = policy_class("MlpPolicy", **model_args, env=environment_name, verbose=1)
-                #model = policy_class("MlpPolicy", env=environment_name, verbose=1)
+                current_model = policy_class(
+                    "MlpPolicy", **model_args, env=environment_name, verbose=1
+                )
+                # model = policy_class("MlpPolicy", env=environment_name, verbose=1)
 
                 # Call the policy here or use it as needed
                 # TODO potentially add something here idk
@@ -52,7 +55,6 @@ def train_active_models(model_list, runs):
                 )
                 current_model.set_logger(csv_logger)
                 current_model.learn(runs)
-                csv_logger.close()
                 rename_progress_file(policy_name)
 
             else:
@@ -62,7 +64,8 @@ def train_active_models(model_list, runs):
 
 
 def train_demo():
-    """trains A2C, shows the result in render mode 'human'"""
+    """ trains A2C, shows the result in render mode 'human' """
+    
     model = A2C("MlpPolicy", "CartPole-v1", verbose=1)
     model.learn(10000)
 
@@ -75,7 +78,7 @@ def train_demo():
         obs, reward, done, info = vec_env.step(action)
         vec_env.render("human")
         episode_reward += reward
-        
+
         if done:
             print(episode_reward)
             episode_reward = 0
@@ -95,7 +98,13 @@ def rename_progress_file(new_name):
 
     # Check that file exists before renaming
     if os.path.exists(old_file_path):
+
+        # Remove potential older logs
+        if os.path.exists(new_file_path):
+            os.remove(new_file_path)
+
         os.rename(old_file_path, new_file_path)
         print(f"Log file stored as '{new_name}.csv'")
+
     else:
         print("Error: 'progress.csv' file not found in the './logs' subfolder.")
