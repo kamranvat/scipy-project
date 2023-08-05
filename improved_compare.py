@@ -3,7 +3,7 @@ import matplotlib.pyplot as plt
 
 def compare(model_list):
     """
-    This function takes a two csv log files as input and displays some performance properties of the previously ran models.
+    This function dictionary of models as input and displays some performance properties of the previously ran models.
 
     Args:
         model_list (list of dicts): 
@@ -11,22 +11,25 @@ def compare(model_list):
             (name, description, active)
 
     """
+    logs, titel = read_logs(model_list)
 
-    """# reading the chosen csv files each as a panda dataframe 
-    data1 = pd.read_csv(f"logs/{log1}.csv")
-    data2 = pd.read_csv(f"logs/{log2}.csv")"""
+    print(""" 
+        The environment describes the world the agent is located in and changes its state based 
+        on the behavior of the agent. The learning process is based on the experience the agent 
+        gains through exploring the environment by executing different actions and receiving 
+        feedback (rewards) from the environment depending on how good or bad the chosen actions 
+        were. The reward is therefore an important measure when evaluating a models performance.\n""")
 
-    logs = read_logs(model_list)
+    # create a figure showing the mean episode reward over time for both models
+    fig, ax = plt.subplots(nrows = 1, ncols = 1)
 
+    model_num = 0
+    # iterate over the list of logs
     for log in logs:
-        # create a figure showing the mean episode reward over time for both models
-        fig, ax = plt.subplots(nrows = 1, ncols = 1)
-
-        #for key in log:
-        #    print(key)
-        ax.plot(log["time/total_timesteps"], log['rollout/ep_rew_mean'], label=log)
+        ax.plot(log["time/total_timesteps"], log['rollout/ep_rew_mean'], label=titel[model_num])
         ax.set(ylabel="Mean Episode Rewards", xlabel="Number of Timesteps", title="Mean Episode Rewards depending on Timesteps")
         ax.legend()
+        model_num += 1
 
     plt.show()
 
@@ -46,13 +49,13 @@ def read_logs(model_list):
     """
 
     logs_list = []
+    titel_list = []
 
     for model in model_list:
         if model.get("active"):
             model_name = model.get("name")
             logs_list.append(pd.read_csv(f"logs/{model_name}.csv"))
+            titel_list.append(model_name)
 
-    return logs_list
-
-
+    return logs_list, titel_list
 
