@@ -15,6 +15,7 @@ The results can be visualized and displayed.
 import argparse
 from training import train_active_models, train_demo
 from cli import toggle_active_agents, load_settings
+import improved_compare
 
 # Define a parser and command line arguments
 parser = argparse.ArgumentParser(
@@ -83,3 +84,6 @@ if __name__ == "__main__":
 
     if args.train:    
         train_active_models(agent_list, args.runs)
+
+    if args.compare:
+        improved_compare.compare(agent_list)
