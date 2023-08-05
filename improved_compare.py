@@ -11,7 +11,7 @@ def compare(model_list):
             (name, description, active)
 
     """
-    logs = read_logs(model_list)
+    logs, titel = read_logs(model_list)
 
     print(""" 
         The environment describes the world the agent is located in and changes its state based 
@@ -22,11 +22,14 @@ def compare(model_list):
 
     # create a figure showing the mean episode reward over time for both models
     fig, ax = plt.subplots(nrows = 1, ncols = 1)
+
+    model_num = 0
     # iterate over the list of logs
     for log in logs:
-        ax.plot(log["time/total_timesteps"], log['rollout/ep_rew_mean'], label=log)
+        ax.plot(log["time/total_timesteps"], log['rollout/ep_rew_mean'], label=titel[model_num])
         ax.set(ylabel="Mean Episode Rewards", xlabel="Number of Timesteps", title="Mean Episode Rewards depending on Timesteps")
         ax.legend()
+        model_num += 1
 
     plt.show()
 
@@ -46,11 +49,13 @@ def read_logs(model_list):
     """
 
     logs_list = []
+    titel_list = []
 
     for model in model_list:
         if model.get("active"):
             model_name = model.get("name")
             logs_list.append(pd.read_csv(f"logs/{model_name}.csv"))
+            titel_list.append(model_name)
 
-    return logs_list
+    return logs_list, titel_list
 
