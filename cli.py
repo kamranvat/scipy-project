@@ -23,8 +23,21 @@ default_agent_list = [
     },
     {
         "name": "DQN-opt",
-        "active": False,
+        "active": True,
         "description": "Deep Q Network (DQN) builds on Fitted Q-Iteration (FQI) and make use of different tricks to stabilize the learning with neural networks: it uses a replay buffer, a target network and gradient clipping.",
+        "model_args": {
+            "batch_size": 64,
+            "buffer_size": 100000,
+            "exploration_final_eps": 0.04,
+            "exploration_fraction": 0.16,
+            "gamma": 0.99,
+            "gradient_steps": 128,
+            "learning_rate": 0.023,
+            "learning_starts": 1000,
+            "policy_kwargs": dict(net_arch=[256, 256]),
+            "target_update_interval": 10,
+            "train_freq": 256
+        }
     },
     {
         "name": "PPO-def",
@@ -33,7 +46,7 @@ default_agent_list = [
     },
     {
         "name": "PPO-opt",
-        "active": True,
+        "active": False,
         "description": "The Proximal Policy Optimization algorithm combines ideas from A2C (having multiple workers) and TRPO (it uses a trust region to improve the actor). Note: the optimized hyperparameters actually call for 100k timesteps",
         "model_args": {
             "batch_size": 32,
