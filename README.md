@@ -36,6 +36,12 @@ To get started, follow these steps:
     
     `pip install -r packages.txt`
 
+**Warning / known issue:** The training part of the code has been developed and tested using Ubuntu (and it works). 
+However, it causes an issue if executed under Windows (being unable to save/load any files). 
+With Windows, you can still generate the visualization for the results, as the repository contains .csv files.
+Apart from that, a non-Windows device is unfortunately among the requirements.
+If, for testing, you need to run the code on a Windows PC, please contact us, and we will figure something out.
+
 ## Usage
 
 The core functionality of the project is the ability to train a set of models for an agent in the CartPole-v1 environment, and to display the results.
@@ -108,6 +114,7 @@ RL relies on a trial-and-error approach, where agents learn through interactions
 RL agents must balance between exploring new actions and exploiting their current knowledge to maximize long-term rewards. 
 As they get better at getting rewards from their environments, we expect the reward for each episode to generally increase, if the model learns.
 
+
 The three models we provide tackle the learning in different ways. 
 Here is some very brief information on them:
 
@@ -134,6 +141,12 @@ By using experience replay and a target network, DQN stabilizes learning and sig
 DQN with the default hyperparameters is instantiated with a very small neural network, whereas the optimized version uses a network of size 256x256.
 It would take longer than the 10k timesteps we provide to train the network to optimally get rewards. 
 The RL baselines3 Zoo benchmark shows an average reward of 500 (the maximum for this environment) after 50k timesteps, showing the effectiveness of this approach.
+
+## About CartPole
+The CartPole environment is a classic benchmark problem in Reinforcement Learning (RL), designed to test an agent's ability to balance a pole on a moving cart. 
+The agent can apply two discrete actions: pushing the cart left or right. 
+The goal is to keep the pole balanced for as long as possible, while avoiding the pole from falling beyond a threshold angle or the cart moving out of bounds.
+Also, the environment is limited to a maximum of 500 timesteps, and since each timestep in which the pole has not fallen yields a reward of 1, a maximum reward of 500 can be achieved.
 
 ## Authors
 
