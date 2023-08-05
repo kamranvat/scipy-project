@@ -12,18 +12,13 @@ default_agent_list = [
         "description": "A synchronous, deterministic variant of Asynchronous Advantage Actor Critic (A3C). It uses multiple workers to avoid the use of a replay buffer.",
     },
     {
-        "name": "A2C-opt",
-        "active": False,
-        "description": "A synchronous, deterministic variant of Asynchronous Advantage Actor Critic (A3C). It uses multiple workers to avoid the use of a replay buffer.",
-    },
-    {
         "name": "DQN-def",
         "active": False,
         "description": "Deep Q Network (DQN) builds on Fitted Q-Iteration (FQI) and make use of different tricks to stabilize the learning with neural networks: it uses a replay buffer, a target network and gradient clipping.",
     },
     {
         "name": "DQN-opt",
-        "active": True,
+        "active": False,
         "description": "Deep Q Network (DQN) builds on Fitted Q-Iteration (FQI) and make use of different tricks to stabilize the learning with neural networks: it uses a replay buffer, a target network and gradient clipping.",
         "model_args": {
             "batch_size": 64,

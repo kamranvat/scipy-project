@@ -34,7 +34,6 @@ def train_active_models(model_list, runs):
             # "Translate" from str to class
             policy_classes = {
                 "A2C-def": A2C,
-                "A2C-opt": A2C,
                 "DQN-def": DQN,
                 "DQN-opt": DQN,
                 "PPO-def": PPO,
