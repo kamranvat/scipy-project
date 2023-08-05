@@ -134,7 +134,6 @@ By computing advantages to guide policy updates, A2C reduces the variance in lea
 This approach facilitates parallelization, enabling A2C to efficiently leverage modern hardware resources, making it suitable for large-scale RL applications and real-time decision-making in challenging environments.
 We do not utilize the full potential of this in this small demonstration of course, as we only run one instance.
 
-
 #### Deep Q Networks (DQN):
 Deep Q Networks (DQN) revolutionized Reinforcement Learning by introducing deep neural networks to approximate the Q-value function. 
 DQN is a form of value iteration method that leverages a neural network as a function approximator to estimate the Q-values of state-action pairs. 
@@ -142,6 +141,11 @@ By using experience replay and a target network, DQN stabilizes learning and sig
 DQN with the default hyperparameters is instantiated with a very small neural network, whereas the optimized version uses a network of size 256x256.
 It would take longer than the 10k timesteps we provide to train the network to optimally get rewards. 
 The RL baselines3 Zoo benchmark shows an average reward of 500 (the maximum for this environment) after 50k timesteps, showing the effectiveness of this approach.
+
+#### Results
+In general, if a model is learning, we can expect the visualized reward per episode to go up over time.
+When interpreting the results of this script, keep in mind that while 10,000 timesteps might take a while to compute, it is still not a lot. 
+Therefore, rewards below the theoretical maximum of 500, or even rewards becoming lower if the agent is exploring more than exploiting the environment, are to be expected. 
 
 ## About CartPole
 The CartPole environment is a classic benchmark problem in Reinforcement Learning (RL), designed to test an agent's ability to balance a pole on a moving cart. 

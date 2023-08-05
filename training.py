@@ -28,12 +28,12 @@ def train_active_models(model_list, runs):
             # Configure logging
             csv_logger = configure(log_path, ["stdout", "csv"])
 
-            policy_name = model.get("name")
+            model_name = model.get("name")
             environment_name = "CartPole-v1"
             model_args = model.get("model_args", {})
 
             # "Translate" from str to class
-            policy_classes = {
+            model_names = {
                 "A2C-def": A2C,
                 "DQN-def": DQN,
                 "DQN-opt": DQN,
@@ -41,21 +41,21 @@ def train_active_models(model_list, runs):
                 "PPO-opt": PPO,
             }
 
-            if policy_name in policy_classes:
-                policy_class = policy_classes[policy_name]
-                current_model = policy_class(
+            if model_name in model_names:
+                model_class = model_names[model_name]
+                current_model = model_class(
                     "MlpPolicy", **model_args, env=environment_name, verbose=1
                 )
 
                 print(
-                    f"Policy {policy_name} is active. Model: {current_model}. Training now..."
+                    f"Model {model_name} is active. Training now..."
                 )
                 current_model.set_logger(csv_logger)
                 current_model.learn(runs)
-                rename_progress_file(policy_name)
+                rename_progress_file(model_name)
 
             else:
-                print(f"Policy {policy_name} is active, but the class is not defined.")
+                print(f"Policy {model_name} is active, but the class is not defined.")
 
     print("\n" * 3)
 
