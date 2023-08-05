@@ -48,7 +48,7 @@ If you have extensive documentation, you can provide a link or instructions on h
 
 ## Authors
 
-- [Christian Meißner](https://github.com/christian-meissner) - cmeissner@uos.de
+- [Christian Meißner](https://github.com/christian-meissner) - chrmeissner@uos.de
 - [Kamran Vatankhah](https://github.com/kamranvat) - kvatankhahba@uos.de
 
 
