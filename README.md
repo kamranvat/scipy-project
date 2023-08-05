@@ -1,6 +1,6 @@
 # CartPole-v1 Performance Measurement
 
-We are measuring and showing the performance of different policies in the CartPole-v1 Reinforcement Learning environment over a short amount of timesteps.
+We are measuring and showing the performance of different predefined models in the CartPole-v1 Reinforcement Learning environment over a short amount of timesteps.
 
 This project serves as the final project for the Scientific Python course at the University of Osnabrück, summer semester of 2023.
 
@@ -13,6 +13,7 @@ This project serves as the final project for the Scientific Python course at the
 - [Usage](#usage)
 - [Features](#features)
 - [Authors](#authors)
+- [About RL and the models](#about-reinforcement-learning-and-the-models)
 
 ## Goal
 
@@ -63,19 +64,76 @@ Please keep in mind that the currently "active" models get visualized; therefore
 This should not cause any inaccuracies unless you also changed the amount of timesteps between different runs, and then try to visualize those results in the same `--compare` step.
 
 
-### Explanation
+### Model Settings
 
-### Command line arguments
+As explained above, you can choose which models to train. 
+There are three models included from stable-baselines3 that can train on the discrete action space / box observation space that this environment provides:
+A2C, PPO, and DQN.
+
+You can train each of them with their default hyperparameters by setting **A2C-def**, **PPO-def** or **DQN-def** to active, respectively.
+
+Additionally, we also included those same models, but with optimal hyperparameters taken from [RL-baselines3-zoo](https://github.com/DLR-RM/rl-baselines3-zoo/).
+You can train these by including **PPO-opt** or **DQN-opt** in your active agents (included by default). There is **no A2C-opt** since the hyperparameters would not differ from **A2C-def**.
+
+If you want to view the respective hyperparameters for yourself, they can be found on RL Baselines3 Zoo's huggingface:
+[PPO](https://huggingface.co/sb3/ppo-CartPole-v1), [DQN](https://huggingface.co/sb3/ppo-CartPole-v1), [A2C](https://huggingface.co/sb3/ppo-CartPole-v1)
+
+
+You can also view their [benchmarks](https://github.com/DLR-RM/rl-baselines3-zoo/blob/master/benchmark.md).
+Note that all of these values are taken after many more timesteps that our default values here.
+
 
 ### Saving and loading
 
+Whenever you exit the settings menu, your choices get saved into a file in the ./settings folder, so they persist when the program terminates.
+The csv logs created when training the models get stored in the ./logs folder, so they also persist and can be visualized when calling cartpoles.py with the compare flag anytime.
+
+Should the save file be deleted or lost, just run cartpoles.py with the --set flag, this should restore the default settings (you may have to run it twice).
+
+Similarly, if the logs should be deleted or lost, you can generate new ones by training the models again.
+
+
 ## Features
 
-- List the main features of your project.
-- Feature 1
-- Feature 2
-- ...
+- Choose which models should be included in the training and visualization via command line arguments
+- Train RL models in the CartPole-v1 environment
+- Visualize the reward over timesteps of the active models during training
+- Run a demo mode to see an agent in the CartPole-v1 environment in action
+- Change the amount of timesteps the models should be trained for via a command line argument
 
+## About Reinforcement Learning and the Models
+
+Reinforcement Learning (RL) is a subfield of machine learning that focuses on training agents to make optimal decisions in dynamic environments. 
+RL relies on a trial-and-error approach, where agents learn through interactions with the environment, receiving feedback in the form of rewards. 
+RL agents must balance between exploring new actions and exploiting their current knowledge to maximize long-term rewards. 
+As they get better at getting rewards from their environments, we expect the reward for each episode to generally increase, if the model learns.
+
+The three models we provide tackle the learning in different ways. 
+Here is some very brief information on them:
+
+#### Proximal Policy Optimization (PPO):
+Proximal Policy Optimization (PPO) belongs to the family of policy gradient methods. 
+PPO aims to optimize the policy of an agent by iteratively updating it while maintaining the stability of the learning process. 
+PPO achieves this by limiting the magnitude of policy updates, ensuring more consistent and reliable improvements. 
+Because it always learns from a batch of episodes, you will see the reward over timesteps have little "jumps" in the visualization.
+Rewards will also not be mapped from zero onwards. 
+This is not an error, but an artifact corresponding to the batch size.
+
+#### Advantage Actor-Critic (A2C):
+Advantage Actor-Critic (A2C) is a popular variant of the Actor-Critic algorithm.
+A2C uses a neural network-based actor to choose actions and a critic to estimate the state-action value function. 
+By computing advantages to guide policy updates, A2C reduces the variance in learning and promotes faster convergence. 
+This approach facilitates parallelization, enabling A2C to efficiently leverage modern hardware resources, making it suitable for large-scale RL applications and real-time decision-making in challenging environments.
+We do not utilize the full potential of this in this small demonstration of course, as we only run one instance.
+
+
+#### Deep Q Networks (DQN):
+Deep Q Networks (DQN) revolutionized Reinforcement Learning by introducing deep neural networks to approximate the Q-value function. 
+DQN is a form of value iteration method that leverages a neural network as a function approximator to estimate the Q-values of state-action pairs. 
+By using experience replay and a target network, DQN stabilizes learning and significantly improves convergence. 
+DQN with the default hyperparameters is instantiated with a very small neural network, whereas the optimized version uses a network of size 256x256.
+It would take longer than the 10k timesteps we provide to train the network to optimally get rewards. 
+The RL baselines3 Zoo benchmark shows an average reward of 500 (the maximum for this environment) after 50k timesteps, showing the effectiveness of this approach.
 
 ## Authors
 
