@@ -11,7 +11,7 @@ from stable_baselines3 import PPO
 log_path = "./logs/"
 
 
-def train_active_models(agent_list, runs):
+def train_active_models(model_list, runs):
     """
     Takes a list of dictionaries that include a "name" key and value.
     Calls training for each model that is named in the list.
@@ -19,37 +19,40 @@ def train_active_models(agent_list, runs):
 
     # TODO allow user to change number of episodes
 
-    for agent in agent_list:
-        if agent.get("active") == True:
+    for model in model_list:
+        if model.get("active"):
+
             # Configure logging
             csv_logger = configure(log_path, ["stdout", "csv"])
 
-            policy_name = agent.get("name")
-            # environment_name = agent.get("environment")
+            policy_name = model.get("name")
             environment_name = "CartPole-v1"
+
             # TODO add optimal hyperparameters to model args to get to 6 models
-            # model_args = agent.get("model_args", {})
+            model_args = model.get("model_args", {})
 
             # "Translate" from str to class
             policy_classes = {
-                "A2C": A2C,
-                "DQN": DQN,
-                "PPO": PPO,
+                "A2C-def": A2C,
+                "DQN-def": DQN,
+                "DQN-opt": DQN,
+                "PPO-def": PPO,
+                "PPO-opt": PPO,
             }
 
             if policy_name in policy_classes:
                 policy_class = policy_classes[policy_name]
-                # model = policy_class(**model_args, env=environment_name, verbose=1)
-                model = policy_class("MlpPolicy", env=environment_name, verbose=1)
+                current_model = policy_class("MlpPolicy", **model_args, env=environment_name, verbose=1)
+                #model = policy_class("MlpPolicy", env=environment_name, verbose=1)
 
                 # Call the policy here or use it as needed
                 # TODO potentially add something here idk
                 print(
-                    f"Policy {policy_name} is active. Model: {model}. Training now..."
+                    f"Policy {policy_name} is active. Model: {current_model}. Training now..."
                 )
-                model.set_logger(csv_logger)
-                model.learn(runs)
-                rename_progress_file(agent.get("name"))
+                current_model.set_logger(csv_logger)
+                current_model.learn(runs)
+                rename_progress_file(policy_name)
 
             else:
                 print(f"Policy {policy_name} is active, but the class is not defined.")
@@ -62,7 +65,6 @@ def train_demo():
     model = A2C("MlpPolicy", "CartPole-v1", verbose=1)
     model.learn(10000)
 
-    #env = gym.make("CartPole-v1", render_mode = 'human')
     vec_env = model.get_env()
     obs = vec_env.reset()
     episode_reward = 0
@@ -77,10 +79,16 @@ def train_demo():
             print(episode_reward)
             episode_reward = 0
 
-def rename_progress_file(new_name):
-    """rename the csv log file for later processing"""
 
-    # The logger saves as "progress.csv", change this to the current name
+def rename_progress_file(new_name):
+    """
+    rename the csv log file for later processing
+
+    Args:
+        new_name (str): progress.csv becomes new_name.csv
+    """
+
+    # Get full paths for renaming
     old_file_path = os.path.join(log_path, "progress.csv")
     new_file_path = os.path.join(log_path, f"{new_name}.csv")
 

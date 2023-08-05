@@ -1,17 +1,64 @@
 [
     {
-        "name": "A2C",
-        "active": true,
+        "name": "A2C-def",
+        "active": false,
         "description": "A synchronous, deterministic variant of Asynchronous Advantage Actor Critic (A3C). It uses multiple workers to avoid the use of a replay buffer."
     },
     {
-        "name": "DQN",
+        "name": "A2C-opt",
         "active": true,
+        "description": "A synchronous, deterministic variant of Asynchronous Advantage Actor Critic (A3C). It uses multiple workers to avoid the use of a replay buffer.",
+        "model_args": {
+            "ent_coef": 0.0,
+            "normalize": false
+        }
+    },
+    {
+        "name": "DQN-def",
+        "active": false,
         "description": "Deep Q Network (DQN) builds on Fitted Q-Iteration (FQI) and make use of different tricks to stabilize the learning with neural networks: it uses a replay buffer, a target network and gradient clipping."
     },
     {
-        "name": "PPO",
-        "active": true,
+        "name": "DQN-opt",
+        "active": false,
+        "description": "Deep Q Network (DQN) builds on Fitted Q-Iteration (FQI) and make use of different tricks to stabilize the learning with neural networks: it uses a replay buffer, a target network and gradient clipping.",
+        "model_args": {
+            "batch_size": 64,
+            "buffer_size": 100000,
+            "exploration_final_eps": 0.04,
+            "exploration_fraction": 0.16,
+            "gamma": 0.99,
+            "gradient_steps": 128,
+            "learning_rate": 0.023,
+            "learning_starts": 1000,
+            "policy_kwargs": {
+                "net_arch": [
+                    256,
+                    256
+                ]
+            },
+            "target_update_interval": 10,
+            "train_freq": 256
+        }
+    },
+    {
+        "name": "PPO-def",
+        "active": false,
         "description": "The Proximal Policy Optimization algorithm combines ideas from A2C (having multiple workers) and TRPO (it uses a trust region to improve the actor)."
+    },
+    {
+        "name": "PPO-opt",
+        "active": false,
+        "description": "The Proximal Policy Optimization algorithm combines ideas from A2C (having multiple workers) and TRPO (it uses a trust region to improve the actor). Note: the optimized hyperparameters actually call for 100k timesteps",
+        "model_args": {
+            "batch_size": 32,
+            "clip_range": 0.2,
+            "ent_coef": 0.0,
+            "gae_lambda": 0.8,
+            "gamma": 0.98,
+            "learning_rate": 0.001,
+            "n_epochs": 20,
+            "n_steps": 256
+        }
     }
 ]
