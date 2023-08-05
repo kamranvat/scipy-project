@@ -1,12 +1,12 @@
 [
     {
         "name": "A2C-def",
-        "active": false,
+        "active": true,
         "description": "A synchronous, deterministic variant of Asynchronous Advantage Actor Critic (A3C). It uses multiple workers to avoid the use of a replay buffer."
     },
     {
         "name": "A2C-opt",
-        "active": true,
+        "active": false,
         "description": "A synchronous, deterministic variant of Asynchronous Advantage Actor Critic (A3C). It uses multiple workers to avoid the use of a replay buffer.",
         "model_args": {
             "ent_coef": 0.0,

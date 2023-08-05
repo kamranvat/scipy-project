@@ -52,6 +52,7 @@ def train_active_models(model_list, runs):
                 )
                 current_model.set_logger(csv_logger)
                 current_model.learn(runs)
+                csv_logger.close()
                 rename_progress_file(policy_name)
 
             else:
