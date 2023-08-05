@@ -1,6 +1,8 @@
+"""Contains everything related to visualizing the results of the training"""
 import pandas as pd
 import matplotlib.pyplot as plt
 from statistics import mean 
+
 
 def compare(model_list):
     """
