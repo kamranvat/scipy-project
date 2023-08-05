@@ -7,19 +7,44 @@ settings_path = os.path.join(settings_folder, settings_file)
 
 default_agent_list = [
     {
-        "name": "A2C",
-        "active": True,
+        "name": "A2C-def",
+        "active": False,
         "description": "A synchronous, deterministic variant of Asynchronous Advantage Actor Critic (A3C). It uses multiple workers to avoid the use of a replay buffer.",
     },
     {
-        "name": "DQN",
-        "active": True,
+        "name": "A2C-opt",
+        "active": False,
+        "description": "A synchronous, deterministic variant of Asynchronous Advantage Actor Critic (A3C). It uses multiple workers to avoid the use of a replay buffer.",
+    },
+    {
+        "name": "DQN-def",
+        "active": False,
         "description": "Deep Q Network (DQN) builds on Fitted Q-Iteration (FQI) and make use of different tricks to stabilize the learning with neural networks: it uses a replay buffer, a target network and gradient clipping.",
     },
     {
-        "name": "PPO",
-        "active": True,
+        "name": "DQN-opt",
+        "active": False,
+        "description": "Deep Q Network (DQN) builds on Fitted Q-Iteration (FQI) and make use of different tricks to stabilize the learning with neural networks: it uses a replay buffer, a target network and gradient clipping.",
+    },
+    {
+        "name": "PPO-def",
+        "active": False,
         "description": "The Proximal Policy Optimization algorithm combines ideas from A2C (having multiple workers) and TRPO (it uses a trust region to improve the actor).",
+    },
+    {
+        "name": "PPO-opt",
+        "active": True,
+        "description": "The Proximal Policy Optimization algorithm combines ideas from A2C (having multiple workers) and TRPO (it uses a trust region to improve the actor). Note: the optimized hyperparameters actually call for 100k timesteps",
+        "model_args": {
+            "batch_size": 32,
+            "clip_range": 0.2,
+            "ent_coef": 0.0,
+            "gae_lambda": 0.8,
+            "gamma": 0.98,
+            "learning_rate": 0.001,
+            "n_epochs": 20,
+            "n_steps": 256, # 32*8 steps instead of running 8 parallel envs with 32 steps as in the zoo settings
+        },
     },
 ]
 
@@ -27,7 +52,6 @@ default_agent_list = [
 def toggle_active_agents():
     """Let the user toggle which agents should be included for training via CLI"""
     while True:
-
         agent_list = load_settings()
 
         print("\nCurrent Policies: ")
@@ -35,15 +59,15 @@ def toggle_active_agents():
 
         choice = input(
             "\nEnter the name of the policy to toggle (type 'exit' to quit): "
-        ).upper()
+        )
 
-        if choice == "EXIT":
+        if choice.lower() == "exit":
             save_settings(agent_list)
             break
 
         found = False
         for agent in agent_list:
-            if agent["name"] == choice:
+            if agent["name"].lower() == choice.lower():
                 agent["active"] = not agent["active"]
                 found = True
                 print(
@@ -87,6 +111,7 @@ def load_settings():
             return json.load(file)
     else:
         # Default settings if no file exists
+        print("agent_settings.json not found. Using default settings.")
         save_settings(default_agent_list)
         load_settings()
 
