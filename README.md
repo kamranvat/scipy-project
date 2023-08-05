@@ -14,6 +14,7 @@ This project serves as the final project for the Scientific Python course at the
 - [Features](#features)
 - [Authors](#authors)
 - [About RL and the models](#about-reinforcement-learning-and-the-models)
+- [About Cartpole](#about-cartpole)
 
 ## Goal
 
