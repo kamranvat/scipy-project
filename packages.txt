@@ -3,3 +3,4 @@ matplotlib
 gymnasium[classic-control]
 stable-baselines3
 opencv-python 
+pandas
