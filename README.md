@@ -12,9 +12,7 @@ This project serves as the final project for the Scientific Python course at the
 - [Installation](#installation)
 - [Usage](#usage)
 - [Features](#features)
-- [Documentation](#documentation)
 - [Authors](#authors)
-- [Contact](#contact)
 
 ## Goal
 
@@ -34,6 +32,11 @@ Instructions on how to install your project. Include prerequisites, virtual envi
 ## Usage
 
 Provide examples and instructions on how to use your Python project. Include code snippets and explanations to guide users through the functionalities.
+### Explanation
+
+### Command line arguments
+
+### Saving and loading
 
 ## Features
 
@@ -42,9 +45,6 @@ Provide examples and instructions on how to use your Python project. Include cod
 - Feature 2
 - ...
 
-## Documentation
-
-If you have extensive documentation, you can provide a link or instructions on how to access it.
 
 ## Authors
 

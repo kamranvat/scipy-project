@@ -9,7 +9,7 @@ def compare(model_list):
     Args:
         model_list (list of dicts): 
             each dict contains information about one model,
-            (name, description, active)
+            (str name, str description, bool active, dict model_args)
 
     """
     # extract the logged performance measurements and model titles seperately from the dictionary
@@ -56,7 +56,7 @@ def read_logs(model_list):
     Args:
         model_list (list of dicts): 
             each dict contains information about one model,
-            (name, description, active)
+            (str name, str description, bool active, dict model_args)
 
 
     Returns:
