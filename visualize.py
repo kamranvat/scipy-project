@@ -1,5 +1,6 @@
 import pandas as pd
 import matplotlib.pyplot as plt
+from statistics import mean 
 
 def visualize(logs):
     """
@@ -21,6 +22,11 @@ def visualize(logs):
         gains through exploring the environment by executing different actions and receiving 
         feedback (rewards) from the environment depending on how good or bad the chosen actions 
         were. The reward is therefore an important measure when evaluating a models performance.\n""")
+    
+    # calculation of the mean reward 
+    avg_reward = mean(data["rollout/ep_rew_mean"])
+    print(f"Using {logs}, the average reward per episode is {avg_reward}.")
+    
     #print("This is a visualization of the mean episode reward depending on total timesteps:")
     # create a figure showing the mean episode reward over time
     fig, ax = plt.subplots(nrows = 1, ncols = 1)
