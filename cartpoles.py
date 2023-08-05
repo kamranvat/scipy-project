@@ -3,15 +3,6 @@ Train different policies in the Cartpole v1 environment from stable baselines 3.
 Outputs get logged as csv files. 
 The results can be visualized and displayed.
 """
-
-# TODO: The user calls this script from their console. The script should provide a few different options:
-# train all
-# modify list of agents to train
-# train none, only visualize the outputs again
-# OPTIONAL visualize the outputs we ship with
-# OPTIONAL demo mode: train only one, render output
-# if no arguments are given, just display current settings
-
 import argparse
 from training import train_active_models, train_demo
 from cli import toggle_active_models, load_settings
@@ -61,28 +52,21 @@ parser.add_argument(
 
 args = parser.parse_args()
 
-def compare():
-    # call the comparison script with the right values
-    pass
-
-
-def compare_shipped():
-    # like compare but with our trained values(optional)
-    pass
-
-
 if __name__ == "__main__":
-
     model_list = load_settings()
 
+    if args.runs < 4000:
+        print("Minimum value for timesteps is 4000.")
+        args.runs = 4000
+
     if args.demo:
-        train_demo()
+        train_demo(args.runs)
+    else:
+        if args.set:
+            toggle_active_models(model_list)
 
-    if args.set:
-        toggle_active_models(model_list)
+        if args.train:
+            train_active_models(model_list, args.runs)
 
-    if args.train:    
-        train_active_models(model_list, args.runs)
-
-    if args.compare:
-        improved_compare.compare(model_list)
+        if args.compare:
+            improved_compare.compare(model_list)

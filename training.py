@@ -63,11 +63,11 @@ def train_active_models(model_list, runs):
     print("\n" * 3)
 
 
-def train_demo():
+def train_demo(runs):
     """ trains A2C, shows the result in render mode 'human' """
-    
+
     model = A2C("MlpPolicy", "CartPole-v1", verbose=1)
-    model.learn(10000)
+    model.learn(runs)
 
     vec_env = model.get_env()
     obs = vec_env.reset()
