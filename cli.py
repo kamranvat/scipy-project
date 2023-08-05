@@ -1,3 +1,4 @@
+"""Contains functions for the command line interface as well as the default settings"""
 import os
 import json
 
