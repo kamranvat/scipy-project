@@ -62,7 +62,9 @@ def toggle_active_models(model_list):
     Let the user toggle which agents should be included for training via CLI
 
     Args:
-        model_list (_type_): _description_
+        model_list (list of dicts): 
+            each dict contains information about one model,
+            (str name, str description, bool active, dict model_args)
     """
     while True:
 
@@ -99,7 +101,9 @@ def print_models_by_activity(model_list):
     Format and print the model list, sorted by active/inactive
 
     Args:
-        model_list (_type_): _description_
+        model_list (list of dicts): 
+            each dict contains information about one model,
+            (str name, str description, bool active, dict model_args)
     """
     active_names = [
         model["name"] for model in model_list if model.get("active") == True
@@ -117,7 +121,9 @@ def save_settings(model_list):
     Save the model_list in json format at settings path
 
     Args:
-        model_list (_type_): _description_
+        model_list (list of dicts): 
+            each dict contains information about one model,
+            (str name, str description, bool active, dict model_args)
     """
     if not os.path.exists(settings_folder):
         os.makedirs(settings_folder)

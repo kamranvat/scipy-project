@@ -17,8 +17,10 @@ def train_active_models(model_list, runs):
     Trains for "runs" timesteps.
 
     Args:
-        model_list (list of dicts): _description_
-        runs (int): timesteps for model.learn(timesteps)
+        model_list (list of dicts): 
+            each dict contains information about one model,
+            (str name, str description, bool active, dict model_args)
+        runs (int): amount of timesteps for model.learn(timesteps)
     """
 
     for model in model_list:
@@ -28,8 +30,6 @@ def train_active_models(model_list, runs):
 
             policy_name = model.get("name")
             environment_name = "CartPole-v1"
-
-            # TODO add optimal hyperparameters to model args to get to 6 models
             model_args = model.get("model_args", {})
 
             # "Translate" from str to class
@@ -46,10 +46,7 @@ def train_active_models(model_list, runs):
                 current_model = policy_class(
                     "MlpPolicy", **model_args, env=environment_name, verbose=1
                 )
-                # model = policy_class("MlpPolicy", env=environment_name, verbose=1)
 
-                # Call the policy here or use it as needed
-                # TODO potentially add something here idk
                 print(
                     f"Policy {policy_name} is active. Model: {current_model}. Training now..."
                 )
@@ -64,7 +61,12 @@ def train_active_models(model_list, runs):
 
 
 def train_demo(runs):
-    """ trains A2C, shows the result in render mode 'human' """
+    """
+    Trains A2C for runs, displays result in render mode 'human'
+
+    Args:
+        runs (int): amount of timesteps for model.learn(timesteps)
+    """
 
     model = A2C("MlpPolicy", "CartPole-v1", verbose=1)
     model.learn(runs)
